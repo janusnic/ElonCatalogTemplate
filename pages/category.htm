@@ -1,0 +1,40 @@
+title = "Категория"
+url = "/category/:slug"
+layout = "default"
+hidden = "0"
+
+[Categories]
+
+
+[Product]
+==
+<?php
+use Elon\Catalog\Models\ProductItem;
+use Elon\Catalog\Models\Category;
+function onStart()
+{
+  $slug = $this->param('slug');
+  $this['slug'] = $slug;
+  $category = Category::where('slug', '=', $slug)->first();
+  //$this['product'] = ProductItem::where('slug', '=', $slug)->first();
+ //$this['products'] = ProductItem::all();
+  $this['products'] = Db::select('select * from elon_catalog_product_items left join elon_catalog_cat_prod on elon_catalog_product_items.id = elon_catalog_cat_prod.product_item_id where elon_catalog_cat_prod.category_id = ' . $category->id);
+}
+?>
+==
+{% component 'Categories' %}
+    <article class="products-container">
+            <ul class="products-list">
+                {% for product in products %}
+                <li class="products-item">
+                    <a href="#" class="products-item-link">
+                        <img class="products-item-image" src="http://yootheme.com/demo/themes/wordpress/2015/salt/wp-content/uploads/hoodie_02_black_front.jpg">
+                        <h3 class="products-item-header">{{ product.title }}</h3>
+                        <span class="products-item-price">€{{ product.price }}</span>
+                    </a>
+                    <a href="/shop/{{ product.slug }}" class="cart-button">More</a>
+                </li>
+                
+                {% endfor %}
+            </ul>
+        </article>

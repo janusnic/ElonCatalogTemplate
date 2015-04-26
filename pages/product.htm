@@ -1,0 +1,48 @@
+title = "Продукт"
+url = "/shop/:slug"
+layout = "default"
+hidden = "0"
+
+[Categories]
+==
+<?php
+use Elon\Catalog\Models\ProductItem;
+function onStart()
+{
+  $slug = $this->param('slug');
+  $this['slug'] = $slug;
+  $this['product'] = ProductItem::where('slug', '=', $slug)->first();
+}
+?>
+==
+{% component 'Categories' %}
+    <article class="products-container">
+        <div class="image-container">
+            <img class="image-container-big-image" src="http://yootheme.com/demo/themes/wordpress/2015/salt/wp-content/uploads/hoodie_02_black_front.jpg" alt="hoodie_02_black_front" title="hoodie_02_black_front">
+            <div class="image-container-thumbnails">
+                <img class="thumbnail" src="http://yootheme.com/demo/themes/wordpress/2015/salt/wp-content/uploads/hoodie_02_black_back.jpg" alt="hoodie_02_black_back">
+                <img class="thumbnail" src="http://yootheme.com/demo/themes/wordpress/2015/salt/wp-content/uploads/hoodie_02_white_front.jpg" alt="hoodie_02_black_back">
+                <img class="thumbnail" src="http://yootheme.com/demo/themes/wordpress/2015/salt/wp-content/uploads/hoodie_02_white_back.jpg" alt="hoodie_02_black_back">
+            </div>
+        </div>
+        <div class="products-description">
+            <h1 class="products-description-title">{{ product.title }}</h1>
+            <p class="products-description-price">€{{ product.price }}</p>
+            <div class="products-description-intro">{{ product.description|raw('html') }}</div>
+            <!--div class="products-description-quantity">
+                <input type="number" step="1" min="1" name="quantity" value="1" title="Qty" class="products-description-quantity-input" size="4">
+            </div-->
+            <div class="products-description-meta">
+                <span class="products-description-stock">
+                    In stock: <span class="products-description-stock-quantity">5</span>
+                </span>
+                <br>
+                <span class="products-description-category">Category:
+                    <a href="#" rel="tag" class="products-description-category-link">Hoodie</a>.</span>
+                <br>
+                <span class="products-description-tags">Tags:
+                    <a href="#" rel="tag" class="products-description-category-link">Clothing</a>,
+                    <a href="#" rel="tag" class="products-description-category-link">Hoodie</a>.</span>
+            </div>
+        </div>
+    </article>
