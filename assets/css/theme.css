@@ -327,3 +327,7 @@ body {
 .products-description-category-link:hover {
     color: #53555c;
 }
+
+.page-wrapper .page-header a {
+    text-decoration: none;
+}
